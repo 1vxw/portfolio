@@ -8,9 +8,9 @@ export default function VisitCount() {
   const [views, setViews] = useState<number | undefined>(undefined);
 
   useEffect(() => {
-    fetch("/api/views")
+    fetch("https://api.countapi.xyz/hit/vincepradas.github.io/portfolio")
       .then((res) => res.json())
-      .then((data) => setViews(data.views))
+      .then((data) => setViews(data.value))
       .catch(() => setViews(0));
   }, []);
 
