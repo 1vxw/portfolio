@@ -1,201 +1,279 @@
 "use client";
+
 import { RotatingText } from "@/components/ui/shadcn-io/rotating-text/index";
+import AutoMovingCursor from "@/components/AutoMovingCursor";
 import { useTheme } from "next-themes";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image.js";
 import me from "@/assets/imgs/asdsa.png";
 import meHover from "@/assets/imgs/asdsa1.png";
-import arrow from "@/assets/imgs/Me.png";
-import ScrollVelocity from "@/components/ScrollVelocity";
-import AutoMovingCursor from "@/components/AutoMovingCursor";
 import { motion } from "framer-motion";
+import {
+  FaArrowRight,
+  FaCode,
+  FaGithub,
+  FaLocationArrow,
+} from "react-icons/fa";
+
+const spotlightStats = [
+  { value: "12+", label: "Products shipped" },
+  { value: "6", label: "Stacks in rotation" },
+  { value: "24h", label: "Typical reply window" },
+];
+
+const focusAreas = [
+  "Realtime UIs",
+  "Motion systems",
+  "Mobile apps",
+  "Cloud APIs",
+];
+
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.08,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 22 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.72,
+    },
+  },
+};
 
 export default function Hero() {
   const { theme, systemTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const [enableCursor, setEnableCursor] = useState(false);
   const currentTheme = theme === "system" ? systemTheme : theme;
   const isDarkMode = currentTheme === "dark";
   const heroRef = useRef<HTMLDivElement>(null);
+  const portraitSrc = mounted && isDarkMode ? me : meHover;
+
+  useEffect(() => {
+    setMounted(true);
+
+    const canRunCursor =
+      window.matchMedia("(min-width: 1024px)").matches &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    setEnableCursor(canRunCursor);
+  }, []);
 
   return (
     <section
       id="hero"
-      className="text-sans relative overflow-hidden scrollbar-hide"
+      className="relative overflow-hidden pt-24 text-sans scrollbar-hide"
       ref={heroRef}
     >
-      <AutoMovingCursor
-        size={28}
-        color="#3b82f6"
-        speed={10}
-        label="Developer"
-        triangleSize={30}
-        containerRef={heroRef}
-      />
-      <div className=" min-h-screen flex flex-col lg:flex-row items-center justify-center lg:justify-between px-4 sm:px-6 lg:px-20 py-8 gap-8 lg:gap-10 relative z-10">
-        {/* Left Content */}
-        <motion.div 
-          className="flex flex-col items-center gap-4 lg:gap-0 lg:items-start text-center lg:text-left w-full lg:w-auto mt-8 lg:mt-0 "
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+      {enableCursor && (
+        <AutoMovingCursor
+          size={24}
+          color="#3b82f6"
+          speed={8}
+          label="Developer"
+          triangleSize={26}
+          containerRef={heroRef}
+        />
+      )}
+      <div className="relative z-10 mx-auto flex min-h-[84vh] max-w-7xl flex-col justify-center gap-8 px-4 pb-10 sm:px-6 lg:flex-row lg:items-center lg:gap-10 lg:px-8">
+        <motion.div
+          className="flex w-full max-w-[40rem] flex-col items-center gap-4 text-center lg:items-start lg:text-left"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
-          <motion.p 
-            className="text-lg sm:text-xl lg:text-2xl font-medium"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
+          <motion.div
+            className="inline-flex items-center gap-2 rounded-full border border-sky-500/20 bg-background/70 px-4 py-2 text-[11px] uppercase tracking-[0.32em] text-muted-foreground backdrop-blur-xl"
+            variants={itemVariants}
+          >
+            <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_14px_rgba(74,222,128,0.8)]" />
+            Available for select builds
+          </motion.div>
+          <motion.p
+            className="text-base font-medium sm:text-lg lg:text-xl"
+            variants={itemVariants}
           >
             Hi, I&apos;m Vince Pradas
           </motion.p>
-          <motion.div 
-            className="w-full max-w-xl flex justify-center lg:justify-start"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            viewport={{ once: true }}
+          <motion.h1
+            className="max-w-4xl text-4xl font-semibold leading-[0.94] tracking-[-0.06em] sm:text-5xl xl:text-6xl"
+            variants={itemVariants}
           >
-            <RotatingText
-              text={["Web Developer", "Freelancer"]}
-            />
+            Building digital systems that feel
+            <span className="bg-[linear-gradient(135deg,#0ea5e9,#22c55e,#f472b6)] bg-clip-text text-transparent">
+              {" "}
+              kinetic, sharp, and alive.
+            </span>
+          </motion.h1>
+          <motion.div
+            className="flex w-full max-w-xl justify-center lg:justify-start"
+            variants={itemVariants}
+          >
+            <RotatingText text={["Web Developer", "Freelancer"]} />
           </motion.div>
-          <motion.p 
-            className="max-w-xl opacity-75 text-sm sm:text-base leading-relaxed px-2 sm:px-0"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
+          <motion.p
+            className="max-w-xl px-2 text-sm leading-relaxed opacity-75 sm:px-0"
+            variants={itemVariants}
           >
-            Building web apps and mobile apps is my jam — from clicking buttons
-            on the frontend to handling data on the backend, I like seeing ideas
-            come to life.
+            Building web apps and mobile apps is my jam, from clicking buttons
+            on the frontend to handling data on the backend. I care about
+            motion, architecture, and the tiny details that make products feel
+            premium instead of generic.
           </motion.p>
-          <motion.div 
-            className="flex flex-wrap gap-3 sm:gap-5 mt-4 justify-center lg:justify-start"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            viewport={{ once: true }}
+          <motion.div
+            className="mt-2 flex flex-wrap justify-center gap-2 lg:justify-start"
+            variants={itemVariants}
           >
-            <button className="py-2 px-5 sm:px-6 border border-black bg-black text-white dark:bg-white dark:text-black dark:border-white text-sm sm:text-base rounded-lg transition-colors duration-200">
+            {focusAreas.map((item, index) => (
+              <motion.span
+                key={item}
+                className="rounded-full border border-border/70 bg-background/65 px-3 py-1.5 text-xs text-muted-foreground backdrop-blur-sm"
+                whileHover={{ y: -3, scale: 1.04 }}
+              >
+                {item}
+              </motion.span>
+            ))}
+          </motion.div>
+          <motion.div
+            className="mt-3 flex flex-wrap justify-center gap-3 sm:gap-4 lg:justify-start"
+            variants={itemVariants}
+          >
+            <motion.button
+              whileHover={{ y: -4, scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 320, damping: 20 }}
+              className="group flex items-center gap-2 rounded-2xl border border-black bg-black py-2.5 px-5 text-sm text-white transition-colors duration-200 dark:border-white dark:bg-white dark:text-black"
+            >
               Download CV
-            </button>
-            <button
+              <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
+            </motion.button>
+            <motion.button
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 const contactElement = document.getElementById("contact");
                 if (contactElement) {
                   contactElement.scrollIntoView({ behavior: "smooth" });
-                } else {
-                  console.log("Contact section not found");
                 }
               }}
-              className="py-2 px-5 sm:px-6 border border-black dark:border-white text-sm sm:text-base rounded-lg transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+              whileHover={{ y: -4, scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 320, damping: 20 }}
+              className="rounded-2xl border border-black py-2.5 px-5 text-sm transition-colors duration-200 hover:bg-gray-100 dark:border-white dark:hover:bg-gray-800"
             >
               Get in Touch
-            </button>
+            </motion.button>
+            <motion.a
+              href="https://github.com/VincePradas"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ y: -4, scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 320, damping: 20 }}
+              className="inline-flex items-center gap-2 rounded-2xl border border-border bg-background/60 py-2.5 px-5 text-sm backdrop-blur-sm transition-colors duration-200 hover:bg-accent"
+            >
+              <FaGithub />
+              View GitHub
+            </motion.a>
           </motion.div>
         </motion.div>
 
-        {/* Arrow */}
-        <motion.div 
-          className="absolute top-30 left-[55%] transform -translate-x-1/2 dark:invert hidden lg:block"
-          initial={{ opacity: 0, scale: 0.8 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          viewport={{ once: true }}
-        >
-          {" "}
-          <Image src={arrow} alt="me" width={180} height={180} />
-        </motion.div>
-
-        {/* Right */}
-        <motion.div 
-          className="flex flex-col gap-6 w-full lg:w-auto items-center"
+        <motion.div
+          className="flex w-full max-w-lg flex-col items-center gap-4 lg:items-stretch"
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           viewport={{ once: true, margin: "-100px" }}
         >
-          <motion.div 
-            className="relative h-65 w-85 sm:h-75 sm:w-100 lg:h-95 lg:w-125 border-2 border-dashed border-primary/25 rounded-lg"
+          <motion.div
+            className="relative h-[18rem] w-full overflow-hidden rounded-[2rem] border border-primary/20 bg-[linear-gradient(180deg,rgba(255,255,255,0.6),rgba(255,255,255,0.28))] p-3 shadow-[0_24px_90px_rgba(14,165,233,0.12)] sm:h-[23rem] dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.62),rgba(15,23,42,0.28))]"
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             viewport={{ once: true }}
-            whileHover={{ scale: 1.05 }}
+            style={{ transformStyle: "preserve-3d" }}
+            whileHover={{
+              y: -10,
+              scale: 1.02,
+              rotateX: -2,
+              rotateY: 1.5,
+              transition: { type: "spring", stiffness: 220, damping: 18 },
+            }}
           >
-            <Image
-              src={isDarkMode ? me : meHover}
-              alt="Vince Pradas - Full Stack Developer"
-              fill
-              style={{ objectFit: "contain" }}
-              className="p-2"
-              priority
-            />
+            <div className="absolute inset-0 rounded-[2rem] bg-[radial-gradient(circle_at_top,rgba(14,165,233,0.18),transparent_45%)]" />
+            <div className="absolute inset-3 overflow-hidden rounded-[1.65rem]">
+              <motion.div
+                className="relative h-full w-full"
+                whileHover={{ scale: 1.04 }}
+                transition={{ type: "spring", stiffness: 180, damping: 16 }}
+              >
+                <Image
+                  src={portraitSrc}
+                  alt="Vince Pradas - Full Stack Developer"
+                  fill
+                  style={{ objectFit: "cover" }}
+                  className="rounded-[1.65rem]"
+                  priority
+                />
+              </motion.div>
+            </div>
+            <div className="absolute left-4 top-4 z-20 flex items-center gap-2 rounded-full border border-white/20 bg-background/78 px-3 py-1.5 text-[11px] uppercase tracking-[0.24em] backdrop-blur-md">
+              <FaCode className="text-sky-500" />
+              Design + Code
+            </div>
+            <div className="absolute bottom-4 left-4 right-4 z-20 rounded-[1.2rem] border border-white/20 bg-background/78 px-4 py-2.5 text-sm backdrop-blur-xl">
+              <div className="flex items-center gap-2 text-xs uppercase tracking-[0.24em] text-muted-foreground">
+                <FaLocationArrow className="text-emerald-400" />
+                Currently building
+              </div>
+              <div className="mt-1 font-medium">
+                Interactive products with strong motion systems
+              </div>
+            </div>
           </motion.div>
 
-          {/* Stats Section */}
-          <motion.div 
-            className="w-full lg:border-t-2 lg:border-dashed border-primary/25 py-4 lg:py-3"
+          <motion.div
+            className="w-full py-2"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
             viewport={{ once: true }}
           >
-            <div className="flex flex-row justify-between items-center px-4 sm:px-8 lg:px-0">
-              <motion.div 
-                className="flex flex-col items-center lg:items-start gap-y-1 lg:gap-y-2"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-                viewport={{ once: true }}
-              >
-                <p className="text-xs sm:text-sm text-center lg:text-left">
-                  Projects Made
-                </p>
-                <p className="text-2xl sm:text-3xl font-semibold">10+</p>
-              </motion.div>
-              <motion.div 
-                className="flex flex-col items-center lg:items-start gap-y-1 lg:gap-y-2"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.6 }}
-                viewport={{ once: true }}
-              >
-                <p className="text-xs sm:text-sm text-center lg:text-left">
-                  Satisfied Clients
-                </p>
-                <p className="text-2xl sm:text-3xl font-semibold">10+</p>
-              </motion.div>
-              <motion.div 
-                className="flex flex-col items-center lg:items-start gap-y-1 lg:gap-y-2"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.7 }}
-                viewport={{ once: true }}
-              >
-                <p className="text-xs sm:text-sm text-center lg:text-left">
-                  Years of honing my skills
-                </p>
-                <p className="text-2xl sm:text-3xl font-semibold">3+</p>
-              </motion.div>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+              {spotlightStats.map((stat, index) => (
+                <motion.div
+                  key={stat.label}
+                  className="flex flex-col gap-y-1 rounded-[1.25rem] border border-border/60 bg-background/55 px-4 py-4 text-left backdrop-blur-md"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{
+                    y: -6,
+                    scale: 1.02,
+                    transition: { type: "spring", stiffness: 280, damping: 18 },
+                  }}
+                >
+                  <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">
+                    {stat.label}
+                  </p>
+                  <p className="text-xl font-semibold sm:text-2xl">
+                    {stat.value}
+                  </p>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
-        </motion.div>
-        <motion.div 
-          className="absolute bottom-0 right-0 left-0 hidden lg:block "
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <ScrollVelocity
-            texts={["WEB DEVELOPER", "SCROLL DOWN"]}
-            velocity={50}
-            className="custom-scroll-text"
-          />
         </motion.div>
       </div>
     </section>

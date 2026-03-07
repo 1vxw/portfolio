@@ -146,8 +146,8 @@ export default function Footer() {
                 <li key={link.label}>
                   <motion.a
                     href={link.href}
-                    whileHover={{ x: 5 }}
-                    transition={{ duration: 0.2 }}
+                    whileHover={{ x: 8 }}
+                    transition={{ type: "spring", stiffness: 260, damping: 18 }}
                     className="text-foreground/70 hover:text-foreground transition-colors text-sm block py-1"
                   >
                     {link.label}
@@ -169,8 +169,8 @@ export default function Footer() {
               {services.map((service) => (
                 <li key={service.label}>
                   <motion.div
-                    whileHover={{ x: 5 }}
-                    transition={{ duration: 0.2 }}
+                    whileHover={{ x: 8 }}
+                    transition={{ type: "spring", stiffness: 260, damping: 18 }}
                     className="flex items-center space-x-2 text-foreground/70 hover:text-foreground transition-colors text-sm"
                   >
                     <service.icon className="w-4 h-4" />
@@ -196,7 +196,7 @@ export default function Footer() {
                 </p>
                 <motion.a
                   href="#contact"
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                   className="inline-block py-2 px-4 bg-foreground text-background rounded-lg text-sm font-medium hover:bg-foreground/80 transition-all duration-300"
                 >
@@ -213,7 +213,7 @@ export default function Footer() {
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      whileHover={{ scale: 1.2, y: -2 }}
+                      whileHover={{ scale: 1.18, y: -4 }}
                       whileTap={{ scale: 0.9 }}
                       className={`w-8 h-8 bg-foreground/10 hover:bg-foreground text-foreground hover:text-background rounded-lg flex items-center justify-center transition-all duration-300 ${social.color}`}
                     >
@@ -251,7 +251,7 @@ export default function Footer() {
           {/* Back to Top Button */}
           <motion.button
             onClick={scrollToTop}
-            whileHover={{ scale: 1.1 }}
+            whileHover={{ scale: 1.08, y: -2 }}
             whileTap={{ scale: 0.9 }}
             className="flex items-center space-x-2 text-sm text-foreground/70 hover:text-foreground transition-colors group"
           >

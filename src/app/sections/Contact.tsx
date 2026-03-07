@@ -251,18 +251,13 @@ export default function Contact() {
 
       {/* Success Message */}
       {showSuccess && (
-        <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -50 }}
-          className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg flex items-center space-x-3"
-        >
+        <div className="fixed top-20 left-1/2 z-50 flex -translate-x-1/2 items-center space-x-3 rounded-lg bg-green-500 px-6 py-4 text-white shadow-lg">
           <FaCheckCircle className="w-5 h-5" />
           <span className="font-medium">
             Email client opened! If it didn&apos;t work, use the copy button
             below.
           </span>
-        </motion.div>
+        </div>
       )}
 
       {/* Section Title */}
@@ -306,7 +301,7 @@ export default function Contact() {
                     transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
                     className="contact-card"
                   >
-                    <Card className="border border-primary/20 hover:border-primary/50 transition-all duration-300 bg-card/50 backdrop-blur-sm">
+                    <Card className="border border-primary/20 hover:border-primary/50 transition-all duration-300 bg-card/55 backdrop-blur-md hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(14,165,233,0.10)]">
                       <CardContent className="p-4">
                         <div className="flex items-center space-x-4">
                           <div className="w-12 h-12 bg-foreground text-background rounded-lg flex items-center justify-center">
@@ -346,7 +341,7 @@ export default function Contact() {
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={isInView ? { opacity: 1, scale: 1 } : {}}
                     transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
-                    whileHover={{ scale: 1.1 }}
+                    whileHover={{ scale: 1.12, y: -4 }}
                     whileTap={{ scale: 0.95 }}
                     className={`w-12 h-12 bg-foreground/10 hover:bg-foreground text-foreground hover:text-background rounded-lg flex items-center justify-center transition-all duration-300 ${social.color}`}
                   >
@@ -362,7 +357,7 @@ export default function Contact() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.6 }}
             >
-              <Card className="border border-primary/20 bg-foreground/5">
+              <Card className="border border-primary/20 bg-foreground/5 backdrop-blur-md">
                 <CardContent className="p-6">
                   <h4 className="text-lg font-semibold mb-3 flex items-center">
                     <FaClock className="w-4 h-4 mr-2" />
@@ -386,7 +381,7 @@ export default function Contact() {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            <Card className="border border-primary/20 bg-card/50 backdrop-blur-sm">
+            <Card className="border border-primary/20 bg-card/55 backdrop-blur-md hover:shadow-[0_28px_70px_rgba(14,165,233,0.08)] transition-all duration-300">
               <CardContent className="p-8">
                 <h3 className="text-2xl font-bold mb-6 flex items-center">
                   <FaProjectDiagram className="w-6 h-6 mr-2" />

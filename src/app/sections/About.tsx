@@ -13,9 +13,9 @@ import {
   SiNodedotjs,
   SiMongodb,
   SiExpress,
-  SiAmazonwebservices,
   SiGit,
 } from "react-icons/si";
+import { FaAws } from "react-icons/fa";
 import LogoLoop from "@/components/LogoLoop";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -57,7 +57,7 @@ const techLogos = [
     href: "https://expressjs.com",
   },
   {
-    node: <SiAmazonwebservices className="w-12 h-12" />,
+    node: <FaAws className="w-12 h-12" />,
     title: "AWS",
     href: "https://aws.amazon.com",
   },
@@ -177,6 +177,12 @@ export default function About() {
       className="relative min-h-screen pt-24 md:pt-24"
       ref={ref}
     >
+      <motion.div
+        aria-hidden="true"
+        className="absolute inset-x-0 top-16 h-40 bg-[radial-gradient(circle_at_center,rgba(14,165,233,0.10),transparent_65%)]"
+        animate={{ opacity: [0.35, 0.75, 0.35], y: [0, 12, 0] }}
+        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+      />
       {/* SVG Background Line - Top Right */}
       <div
         ref={svgContainerRef1}
@@ -232,7 +238,7 @@ export default function About() {
             <div className="lg:col-span-2 space-y-8">
               {/* Profile Card */}
               <motion.div variants={itemVariants}>
-                <Card className="border bg-background">
+                <Card className="border bg-background/80 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(14,165,233,0.10)]">
                   <CardContent className="p-6 md:p-8">
                     <div className="space-y-6">
                       <div className="flex items-center gap-2 pb-4 border-b">
@@ -280,10 +286,10 @@ export default function About() {
                   {developerPrinciples.map((principle) => (
                     <motion.div
                       key={principle.title}
-                      whileHover={{ y: -4 }}
-                      transition={{ duration: 0.2 }}
+                      whileHover={{ y: -8, scale: 1.03 }}
+                      transition={{ type: "spring", stiffness: 260, damping: 18 }}
                     >
-                      <Card className="border h-full bg-background">
+                      <Card className="border h-full bg-background/78 backdrop-blur-md">
                         <CardContent className="p-4 md:p-5">
                           <div className="space-y-2">
                             <h3 className="font-semibold text-sm md:text-base">
@@ -313,6 +319,7 @@ export default function About() {
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: index * 0.05, duration: 0.3 }}
+                      whileHover={{ y: -4, scale: 1.05 }}
                     >
                       <Badge
                         variant="outline"
@@ -335,7 +342,8 @@ export default function About() {
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1, duration: 0.4 }}
-                      className="flex items-center gap-3 p-3 border rounded-lg bg-background"
+                      whileHover={{ x: 6, scale: 1.01 }}
+                      className="flex items-center gap-3 p-3 border rounded-2xl bg-background/75 backdrop-blur-sm"
                     >
                       <div className="w-1.5 h-1.5 bg-foreground rounded-full flex-shrink-0" />
                       <span className="text-sm md:text-base">{focus}</span>

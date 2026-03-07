@@ -184,12 +184,6 @@ export default function Services() {
   const currentServices = services.slice(startIndex, endIndex);
 
   const goToNextPage = () => {
-    console.log(
-      "Next page clicked, current page:",
-      currentPage,
-      "total pages:",
-      totalPages
-    );
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
       setSelectedService(null);
@@ -197,7 +191,6 @@ export default function Services() {
   };
 
   const goToPreviousPage = () => {
-    console.log("Previous page clicked, current page:", currentPage);
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
       setSelectedService(null);
@@ -205,7 +198,6 @@ export default function Services() {
   };
 
   const goToPage = (page: number) => {
-    console.log("Go to page clicked:", page);
     setCurrentPage(page);
     setSelectedService(null);
   };
@@ -268,8 +260,8 @@ export default function Services() {
     >
       {/* Background Elements */}
       <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-foreground rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-foreground rounded-full blur-3xl animate-pulse delay-1000" />
+        <div className="absolute top-20 left-10 h-72 w-72 rounded-full bg-foreground blur-3xl" />
+        <div className="absolute bottom-20 right-10 h-96 w-96 rounded-full bg-foreground blur-3xl" />
       </div>
 
       {/* Section Title */}
@@ -307,7 +299,7 @@ export default function Services() {
               delay: index * 0.1,
               ease: "easeOut",
             }}
-            whileHover={{ y: -10, scale: 1.02 }}
+            whileHover={{ y: -12, scale: 1.02, rotateX: -2 }}
             whileTap={{ scale: 0.98 }}
             className="group cursor-pointer"
             onClick={() =>
@@ -316,13 +308,17 @@ export default function Services() {
               )
             }
           >
-            <Card className="h-full border-2 border-dashed border-primary/25 hover:border-primary/50 transition-all duration-300 bg-card/50 backdrop-blur-sm hover:bg-card/80">
+            <Card className="h-full border-2 border-dashed border-primary/25 hover:border-primary/50 transition-all duration-300 bg-card/55 backdrop-blur-md hover:bg-card/85 hover:shadow-[0_28px_70px_rgba(14,165,233,0.10)]">
               <CardContent className="p-6">
                 {/* Service Header */}
                 <div className="mb-4">
-                  <div className="w-12 h-12 rounded-lg bg-foreground p-3 mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <motion.div
+                    className="w-12 h-12 rounded-lg bg-foreground p-3 mb-4"
+                    whileHover={{ rotate: 8, scale: 1.12 }}
+                    transition={{ type: "spring", stiffness: 260, damping: 18 }}
+                  >
                     <service.icon className="w-full h-full text-background" />
-                  </div>
+                  </motion.div>
                   <h3 className="text-xl font-bold mb-2 group-hover:text-foreground/80 transition-colors">
                     {service.title}
                   </h3>
@@ -380,8 +376,6 @@ export default function Services() {
                           document.getElementById("contact");
                         if (contactElement) {
                           contactElement.scrollIntoView({ behavior: "smooth" });
-                        } else {
-                          console.log("Contact section not found");
                         }
                       }}
                       className="w-full mt-4 py-2 px-4 bg-foreground text-background text-sm rounded-lg hover:bg-foreground/80 transition-all duration-300"
@@ -418,7 +412,7 @@ export default function Services() {
         className="flex justify-center items-center gap-4 mb-16 relative z-20"
       >
         {/* Previous Button */}
-        <button
+        <motion.button
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -430,14 +424,16 @@ export default function Services() {
               ? "border-primary/20 text-foreground/30 cursor-not-allowed"
               : "border-primary/50 text-foreground hover:bg-primary/5 hover:border-primary/80 cursor-pointer"
           }`}
+          whileHover={{ y: -2 }}
+          whileTap={{ scale: 0.96 }}
         >
           <FaChevronLeft className="w-4 h-4 pointer-events-none" />
-        </button>
+        </motion.button>
 
         {/* Page Numbers */}
         <div className="flex gap-2">
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-            <button
+            <motion.button
               key={page}
               onClick={(e) => {
                 e.preventDefault();
@@ -449,14 +445,16 @@ export default function Services() {
                   ? "bg-foreground text-background border-foreground"
                   : "border-primary/50 text-foreground hover:bg-primary/5 hover:border-primary/80"
               }`}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.96 }}
             >
               {page}
-            </button>
+            </motion.button>
           ))}
         </div>
 
         {/* Next Button */}
-        <button
+        <motion.button
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -468,9 +466,11 @@ export default function Services() {
               ? "border-primary/20 text-foreground/30 cursor-not-allowed"
               : "border-primary/50 text-foreground hover:bg-primary/5 hover:border-primary/80 cursor-pointer"
           }`}
+          whileHover={{ y: -2 }}
+          whileTap={{ scale: 0.96 }}
         >
           <FaChevronRight className="w-4 h-4 pointer-events-none" />
-        </button>
+        </motion.button>
       </motion.div>
 
       {/* Pagination Info */}
@@ -513,8 +513,6 @@ export default function Services() {
                 const contactElement = document.getElementById("contact");
                 if (contactElement) {
                   contactElement.scrollIntoView({ behavior: "smooth" });
-                } else {
-                  console.log("Contact section not found");
                 }
               }}
               whileHover={{ scale: 1.05 }}
@@ -531,8 +529,6 @@ export default function Services() {
                 const projectsElement = document.getElementById("projects");
                 if (projectsElement) {
                   projectsElement.scrollIntoView({ behavior: "smooth" });
-                } else {
-                  console.log("Projects section not found");
                 }
               }}
               whileHover={{ scale: 1.05 }}

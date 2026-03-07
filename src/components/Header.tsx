@@ -1,29 +1,44 @@
 "use client";
-import { useEffect, useState } from "react";
+
+import { motion } from "framer-motion";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { ThemeToggleButton } from "./ui/shadcn-io/ToggleButton";
 
 export default function Header() {
   const [hidden, setHidden] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("hero");
+  const lastScrollYRef = useRef(0);
+
+  const navItems = useMemo(
+    () => [
+      { href: "#hero", label: "Home" },
+      { href: "#about", label: "About" },
+      { href: "#projects", label: "Projects" },
+      { href: "#skills", label: "Skills" },
+      { href: "#services", label: "Services" },
+      { href: "#contact", label: "Contact" },
+    ],
+    []
+  );
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+      if (currentScrollY > lastScrollYRef.current && currentScrollY > 100) {
         setHidden(true);
       } else {
         setHidden(false);
       }
 
-      setLastScrollY(currentScrollY);
+      lastScrollYRef.current = currentScrollY;
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -40,88 +55,114 @@ export default function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [menuOpen]);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+        if (visible?.target.id) {
+          setActiveSection(visible.target.id);
+        }
+      },
+      {
+        threshold: [0.25, 0.5, 0.75],
+        rootMargin: "-18% 0px -18% 0px",
+      }
+    );
+
+    navItems.forEach((item) => {
+      const target = document.querySelector(item.href);
+      if (target) {
+        observer.observe(target);
+      }
+    });
+
+    return () => observer.disconnect();
+  }, [navItems]);
+
+  const scrollToSection = (href: string) => {
+    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+    setMenuOpen(false);
+  };
+
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 bg-white/80 dark:bg-background/80 backdrop-blur-md transition-transform duration-500 ${
+      className={`fixed top-0 left-0 z-50 w-full transition-transform duration-500 ${
         hidden ? "-translate-y-full" : "translate-y-0"
       }`}
     >
-      <div className="px-4 py-3 flex justify-between items-center mx-auto">
-        {/* Logo / Title */}
-        <div className="flex items-center gap-2 px-1">
-          <div className="font-bold text-xl text-foreground">vXw</div>
-          <div className="text-sm text-foreground/70">
-            vinceXwarren
+      <div className="flex w-full items-center justify-between border-b border-border/40 bg-background/55 px-4 py-2 shadow-[0_10px_30px_rgba(15,23,42,0.04)] backdrop-blur-xl dark:bg-background/45 dark:shadow-[0_10px_30px_rgba(2,6,23,0.22)]">
+        <motion.button
+          type="button"
+          onClick={() => scrollToSection("#hero")}
+          className="flex items-center gap-3 px-1 text-left"
+          whileHover={{ y: -1.5, scale: 1.01 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <div className="flex h-10 w-10 items-center justify-center text-base font-bold text-foreground">
+            vXw
           </div>
-        </div>
+          <div>
+            <div className="text-xs font-semibold tracking-[0.24em] text-foreground/90 sm:text-sm">
+              VINCE WARREN
+            </div>
+            <div className="text-[11px] text-muted-foreground">
+              Engineer • Designer • Builder
+            </div>
+          </div>
+        </motion.button>
 
-        {/* NAV - Hidden on Mobile */}
-        <nav className="hidden md:flex items-center gap-8 px-1">
-          <a
-            href="#hero"
-            className="text-sm font-medium hover:text-foreground/80 transition-colors px-2 py-1"
-          >
-            Home
-          </a>
-          <a
-            href="#about"
-            className="text-sm font-medium hover:text-foreground/80 transition-colors px-2 py-1"
-          >
-            About
-          </a>
-          <a
-            href="#projects"
-            className="text-sm font-medium hover:text-foreground/80 transition-colors px-2 py-1"
-          >
-            Projects
-          </a>
-          <a
-            href="#skills"
-            className="text-sm font-medium hover:text-foreground/80 transition-colors px-2 py-1"
-          >
-            Skills
-          </a>
-          <a
-            href="#services"
-            className="text-sm font-medium hover:text-foreground/80 transition-colors px-2 py-1"
-          >
-            Services
-          </a>
-          <a
-            href="#contact"
-            className="text-sm font-medium hover:text-foreground/80 transition-colors px-2 py-1"
-          >
-            Contact
-          </a>
+        <nav className="hidden items-center gap-2 rounded-full border border-border/50 bg-background/50 p-1 md:flex">
+          {navItems.map((item) => {
+            const sectionId = item.href.replace("#", "");
+            const active = sectionId === activeSection;
+
+            return (
+              <motion.button
+                key={item.href}
+                type="button"
+                onClick={() => scrollToSection(item.href)}
+                className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-300 ${
+                  active
+                    ? "bg-foreground text-background shadow-sm"
+                    : "text-foreground/72 hover:bg-foreground/8 hover:text-foreground"
+                }`}
+                whileHover={{ y: -2, scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 340, damping: 20 }}
+              >
+                {item.label}
+              </motion.button>
+            );
+          })}
         </nav>
 
-        {/* Right Side */}
         <div className="flex items-center gap-3 px-1">
           <ThemeToggleButton />
-
-          {/* Hamburger (Mobile only) */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className={`md:hidden p-2 rounded-lg transition-all duration-300 hover:bg-foreground/10 ${
+            className={`rounded-lg p-2 transition-all duration-300 hover:bg-foreground/10 md:hidden ${
               menuOpen ? "bg-foreground/10" : "hover:scale-105"
             }`}
             aria-label="Toggle menu"
           >
-            <div className="relative w-5 h-5">
+            <div className="relative h-5 w-5">
               <Menu
                 size={18}
                 className={`absolute inset-0 transition-all duration-300 ${
                   menuOpen
-                    ? "opacity-0 rotate-90 scale-75"
-                    : "opacity-100 rotate-0 scale-100"
+                    ? "rotate-90 scale-75 opacity-0"
+                    : "rotate-0 scale-100 opacity-100"
                 }`}
               />
               <X
                 size={18}
                 className={`absolute inset-0 transition-all duration-300 ${
                   menuOpen
-                    ? "opacity-100 rotate-0 scale-100"
-                    : "opacity-0 -rotate-90 scale-75"
+                    ? "rotate-0 scale-100 opacity-100"
+                    : "-rotate-90 scale-75 opacity-0"
                 }`}
               />
             </div>
@@ -129,60 +170,51 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
       <div
-        className={`md:hidden transition-all duration-300 ease-in-out ${
+        className={`overflow-hidden transition-all duration-300 ease-in-out md:hidden ${
           menuOpen
-            ? "max-h-screen opacity-100 translate-y-0"
-            : "max-h-0 opacity-0 -translate-y-2"
-        } overflow-hidden`}
+            ? "max-h-screen translate-y-0 opacity-100"
+            : "max-h-0 -translate-y-2 opacity-0"
+        }`}
       >
-        <nav className="bg-background/95 backdrop-blur-xl border-t border-foreground/10 shadow-lg">
-          <div className="px-4 py-6 space-y-4 max-w-7xl mx-auto">
-            {[
-              { href: "#hero", label: "Home" },
-              { href: "#about", label: "About" },
-              { href: "#projects", label: "Projects" },
-              { href: "#skills", label: "Skills" },
-              { href: "#services", label: "Services" },
-              { href: "#contact", label: "Contact" },
-            ].map((item, index) => (
-              <div
-                key={item.href}
-                className={`transform transition-all duration-300 delay-${
-                  index * 50
-                } ${
-                  menuOpen
-                    ? "translate-x-0 opacity-100"
-                    : "translate-x-4 opacity-0"
-                }`}
-              >
-                <a
-                  href={item.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setMenuOpen(false);
-                    setTimeout(() => {
-                      document.querySelector(item.href)?.scrollIntoView({
-                        behavior: "smooth",
-                      });
-                    }, 150);
-                  }}
-                  className="block w-full text-right py-2.5 px-3 text-base font-medium text-foreground hover:text-foreground/80 hover:bg-foreground/5 rounded-lg transition-all duration-200"
-                >
-                  <span className="inline-block transform hover:translate-x-1 transition-transform duration-200">
-                    {item.label}
-                  </span>
-                </a>
-              </div>
-            ))}
+        <nav className="w-full border-t border-border/40 bg-background/80 shadow-[0_10px_24px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:shadow-[0_10px_24px_rgba(2,6,23,0.18)]">
+          <div className="space-y-4 px-4 py-6">
+            {navItems.map((item, index) => {
+              const active = activeSection === item.href.replace("#", "");
 
-            {/* Mobile Menu Footer */}
-            <div className="pt-4 mt-4 border-t border-foreground/10">
-              <div className="text-center">
-                <div className="text-xs text-foreground/50">
-                  Full-Stack Developer • Ready to build something amazing?
+              return (
+                <div
+                  key={item.href}
+                  className={`transform transition-all duration-300 ${
+                    menuOpen
+                      ? "translate-x-0 opacity-100"
+                      : "translate-x-4 opacity-0"
+                  }`}
+                  style={{ transitionDelay: `${index * 50}ms` }}
+                >
+                  <a
+                    href={item.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setTimeout(() => scrollToSection(item.href), 150);
+                    }}
+                    className={`block w-full rounded-lg px-3 py-2.5 text-right text-base font-medium transition-all duration-200 ${
+                      active
+                        ? "bg-foreground text-background"
+                        : "text-foreground hover:bg-foreground/5 hover:text-foreground/80"
+                    }`}
+                  >
+                    <span className="inline-block transition-transform duration-200 hover:translate-x-1">
+                      {item.label}
+                    </span>
+                  </a>
                 </div>
+              );
+            })}
+
+            <div className="mt-4 border-t border-foreground/10 pt-4">
+              <div className="text-center text-xs text-foreground/50">
+                Full-Stack Developer • Ready to build something ambitious?
               </div>
             </div>
           </div>

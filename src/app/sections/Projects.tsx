@@ -20,6 +20,22 @@ const projectCards = [
     url: "https://ecom-sandras-g6abfyg2azbqekf8.southeastasia-01.azurewebsites.net/api/products",
   },
   {
+    title: "Nemsu E-Learning Environment API",
+    description:
+      "North Eastern Mindanao State University E-Learning Enviroment Server",
+    tech: ["Node.js", "TypeScript", "Express.js", "SQLite", "Azure"],
+    status: "In Progress",
+    url: "https://github.com/Vincepradas/nemsuee-server",
+  },
+  {
+    title: "Nemsu E-Learning Environment",
+    description:
+      "North Eastern Mindanao State University E-Learning Enviroment Frontend",
+    tech: ["React", "TypeScript", "Tailwind v4"],
+    status: "In Progress",
+    url: "https://github.com/Vincepradas/nemsuee-server",
+  },
+  {
     title: "SmartQuiz Android APP",
     description:
       "AI-powered quiz generation app with GPT integration (Gemini).",
@@ -34,6 +50,14 @@ const projectCards = [
     tech: ["MongoDB", "Express.js", "Azure", "Google Gemini"],
     status: "Completed",
     url: "https://quiz-gen-be-c5bmh0azcycyg8gz.southeastasia-01.azurewebsites.net/quizzes",
+  },
+    {
+    title: "Madrid Government Website API",
+    description:
+      "A RESTful API for Madrid's Government Website",
+    tech: ["SQLite", "Express.js", "Azure", "TypeScript"],
+    status: "In Progess",
+    url: "https://github.com/Vincepradas/madridsds_gov_website_api",
   },
   {
     title: "Savince: Savings Tracker APP",
@@ -140,6 +164,12 @@ export default function Project() {
     <section id="projects" className="py-20 relative overflow-hidden">
       {/* Background Gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none" />
+      <motion.div
+        aria-hidden="true"
+        className="absolute left-1/2 top-12 h-48 w-48 -translate-x-1/2 rounded-full bg-sky-500/10 blur-3xl"
+        animate={{ scale: [0.9, 1.15, 0.9], opacity: [0.2, 0.5, 0.2] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+      />
 
       <div className="container mx-auto px-6 md:px-8 lg:px-12 max-w-7xl relative z-10">
         <motion.div
@@ -189,17 +219,22 @@ export default function Project() {
               >
                 <motion.div
                   whileHover={{
-                    y: -8,
-                    transition: { duration: 0.3, ease: "easeOut" },
+                    y: -12,
+                    scale: 1.02,
+                    transition: { type: "spring", stiffness: 240, damping: 18 },
                   }}
                   className="h-full"
                 >
                   <Card
-                    className="border border-border/50 bg-card/50 backdrop-blur-sm h-full hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 overflow-hidden relative cursor-pointer"
+                    className="border border-border/50 bg-card/55 backdrop-blur-md h-full hover:shadow-[0_28px_80px_rgba(14,165,233,0.14)] hover:border-primary/30 transition-all duration-300 overflow-hidden relative cursor-pointer"
                     onClick={() => handleCardClick(project.url!)}
                   >
                     {/* Hover Gradient Effect */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 pointer-events-none"
+                      animate={{ backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"] }}
+                      transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+                    />
 
                     <CardContent className="p-6 h-full flex flex-col relative z-10">
                       {/* Status Badge and External Link Icon */}
@@ -268,10 +303,12 @@ export default function Project() {
               viewport={{ once: true }}
             >
               {/* Previous Button */}
-              <button
+              <motion.button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
                 className="px-3 py-2 rounded-lg border border-border bg-background hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.96 }}
               >
                 <svg
                   className="w-4 h-4"
@@ -286,12 +323,12 @@ export default function Project() {
                     d="M15 19l-7-7 7-7"
                   />
                 </svg>
-              </button>
+              </motion.button>
 
               {/* Page Numbers */}
               {Array.from({ length: totalPages }, (_, i) => i + 1).map(
                 (page) => (
-                  <button
+                  <motion.button
                     key={page}
                     onClick={() => handlePageChange(page)}
                     className={`px-3 py-2 rounded-lg border transition-all duration-200 ${
@@ -299,17 +336,21 @@ export default function Project() {
                         ? "bg-primary text-primary-foreground border-primary"
                         : "border-border bg-background hover:bg-accent"
                     }`}
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.96 }}
                   >
                     {page}
-                  </button>
+                  </motion.button>
                 )
               )}
 
               {/* Next Button */}
-              <button
+              <motion.button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
                 className="px-3 py-2 rounded-lg border border-border bg-background hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.96 }}
               >
                 <svg
                   className="w-4 h-4"
@@ -324,7 +365,7 @@ export default function Project() {
                     d="M9 5l7 7-7 7"
                   />
                 </svg>
-              </button>
+              </motion.button>
 
               {/* Page Info */}
               <div className="ml-4 text-sm text-muted-foreground">

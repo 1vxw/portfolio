@@ -10,23 +10,21 @@ import {
   FaCloud,
   FaTerminal,
   FaBox,
+  FaAws,
 } from "react-icons/fa";
 import {
   SiNextdotjs,
   SiTypescript,
   SiJavascript,
   SiHtml5,
-  SiCss3,
+  SiCss,
   SiTailwindcss,
   SiNodedotjs,
   SiExpress,
   SiMongodb,
   SiMysql,
   SiFirebase,
-  SiAmazonwebservices,
   SiFigma,
-  SiAdobephotoshop,
-  SiAdobeillustrator,
   SiGit,
   SiGithub,
   SiPostman,
@@ -49,7 +47,7 @@ const skillCategories = [
       { name: "TypeScript", icon: SiTypescript },
       { name: "JavaScript", icon: SiJavascript },
       { name: "HTML5", icon: SiHtml5 },
-      { name: "CSS3", icon: SiCss3 },
+      { name: "CSS3", icon: SiCss },
       { name: "Tailwind CSS", icon: SiTailwindcss },
     ],
   },
@@ -92,7 +90,7 @@ const skillCategories = [
     icon: FaCloud,
     description: "Infrastructure, deployment, and scalability",
     technologies: [
-      { name: "AWS", icon: SiAmazonwebservices },
+      { name: "AWS", icon: FaAws },
       { name: "Azure", icon: VscAzure },
     ],
   },
@@ -103,8 +101,8 @@ const skillCategories = [
     description: "Design systems and user experience",
     technologies: [
       { name: "Figma", icon: SiFigma },
-      { name: "Photoshop", icon: SiAdobephotoshop },
-      { name: "Illustrator", icon: SiAdobeillustrator },
+      { name: "Photoshop", icon: FaPalette },
+      { name: "Illustrator", icon: FaPalette },
     ],
   },
   {
@@ -153,7 +151,7 @@ export default function SkillsSection() {
           const nextIndex = (currentIndex + 1) % skillCategories.length;
           return skillCategories[nextIndex].id;
         });
-      }, 3000);
+      }, 4500);
     }
 
     return () => {
@@ -175,6 +173,7 @@ export default function SkillsSection() {
       ref={sectionRef}
       className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12"
     >
+      <div className="pointer-events-none absolute left-1/2 mt-8 h-32 w-64 -translate-x-1/2 rounded-full bg-emerald-400/10 blur-3xl" />
       {/* Header */}
       <motion.div 
         className="text-center mb-12"
@@ -218,7 +217,7 @@ export default function SkillsSection() {
               const isActive = activeCategory === category.id;
 
               return (
-                <button
+                <motion.button
                   key={category.id}
                   onClick={() => handleCategoryClick(category.id)}
                   className={`
@@ -229,6 +228,8 @@ export default function SkillsSection() {
                         : "border-border/50 bg-card/50 hover:bg-accent/50 hover:border-primary/20"
                     }
                   `}
+                  whileHover={{ x: 6, scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                 >
                   <div
                     className={`
@@ -255,7 +256,7 @@ export default function SkillsSection() {
                       {category.technologies.length} technologies
                     </p>
                   </div>
-                </button>
+                </motion.button>
               );
             })}
           </div>
@@ -306,7 +307,7 @@ export default function SkillsSection() {
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.3, delay: index * 0.05 }}
-                        whileHover={{ scale: 1.05 }}
+                        whileHover={{ scale: 1.08, y: -6 }}
                       >
                         <div className="w-12 h-12 mb-2 flex items-center justify-center rounded-lg bg-secondary/80 text-secondary-foreground group-hover:text-primary transition-colors duration-300">
                           <TechIconComponent size={24} />
@@ -331,7 +332,7 @@ export default function SkillsSection() {
           >
             <div className="flex gap-1">
               {skillCategories.map((category) => (
-                <button
+                <motion.button
                   key={category.id}
                   onClick={() => handleCategoryClick(category.id)}
                   className={`
@@ -342,6 +343,7 @@ export default function SkillsSection() {
                         : "bg-border hover:bg-primary/50"
                     }
                   `}
+                  whileHover={{ scale: 1.6 }}
                 />
               ))}
             </div>
@@ -353,7 +355,7 @@ export default function SkillsSection() {
             transition={{ duration: 0.6, delay: 0.8 }}
           >
             <Shuffle
-              text="Opent to work!"
+              text="Open to work!"
               shuffleDirection="right"
               duration={0.35}
               animationMode="evenodd"
