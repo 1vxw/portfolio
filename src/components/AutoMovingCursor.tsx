@@ -24,23 +24,19 @@ export default function AutoMovingCursor({
   const [isHeroVisible, setIsHeroVisible] = useState(false);
 
   useEffect(() => {
-    const checkHeroVisibility = () => {
-      const heroSection = document.getElementById("hero");
-      if (heroSection) {
-        const rect = heroSection.getBoundingClientRect();
+    const heroSection = document.getElementById("hero");
+    if (!heroSection) return;
 
-        const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
-        setIsHeroVisible(isVisible);
-      }
-    };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsHeroVisible(entry.isIntersecting);
+      },
+      { threshold: 0.15 }
+    );
 
-    checkHeroVisibility();
-    window.addEventListener("scroll", checkHeroVisibility);
-    window.addEventListener("resize", checkHeroVisibility);
-
+    observer.observe(heroSection);
     return () => {
-      window.removeEventListener("scroll", checkHeroVisibility);
-      window.removeEventListener("resize", checkHeroVisibility);
+      observer.disconnect();
     };
   }, []);
 
@@ -102,12 +98,12 @@ export default function AutoMovingCursor({
         viewportY = (y / 100) * window.innerHeight;
       }
 
-      cursor.style.left = `${viewportX}px`;
-      cursor.style.top = `${viewportY}px`;
+      cursor.style.transform = `translate3d(${viewportX}px, ${viewportY}px, 0) translate(-50%, -50%)`;
 
       if (label) {
-        label.style.left = `${viewportX + 20}px`;
-        label.style.top = `${viewportY + 20}px`;
+        label.style.transform = `translate3d(${viewportX + 20}px, ${
+          viewportY + 20
+        }px, 0) translateY(-50%)`;
       }
 
       animationRef.current = requestAnimationFrame(animate);
@@ -141,7 +137,7 @@ export default function AutoMovingCursor({
     <div className="fixed inset-0 pointer-events-none z-30">
       <div
         ref={cursorRef}
-        className="absolute transform -translate-x-1/2 -translate-y-1/2 transition-all duration-100"
+        className="absolute left-0 top-0 will-change-transform transition-transform duration-100"
         style={{ width: `${size}px`, height: `${size}px` }}
       >
         <svg
@@ -159,7 +155,7 @@ export default function AutoMovingCursor({
 
       <div
         ref={labelRef}
-        className="absolute bg-blue-500 text-white px-2 py-1 text-sm shadow-lg transform -translate-y-1/2 transition-all duration-100"
+        className="absolute left-0 top-0 bg-blue-500 text-white px-2 py-1 text-sm shadow-lg will-change-transform transition-transform duration-100"
       >
         {label}
       </div>

@@ -1,15 +1,18 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "@/lib/gsap-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { ThemeToggleButton } from "./ui/shadcn-io/ToggleButton";
+import logo from "@/assets/imgs/logo.png";
 
 export default function Header() {
   const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
   const lastScrollYRef = useRef(0);
+  const tickingRef = useRef(false);
+  const menuOpenRef = useRef(false);
 
   const navItems = useMemo(
     () => [
@@ -24,16 +27,31 @@ export default function Header() {
   );
 
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
+    menuOpenRef.current = menuOpen;
+  }, [menuOpen]);
 
-      if (currentScrollY > lastScrollYRef.current && currentScrollY > 100) {
-        setHidden(true);
-      } else {
-        setHidden(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (tickingRef.current) return;
+      tickingRef.current = true;
+
+      requestAnimationFrame(() => {
+      const currentScrollY = window.scrollY;
+      const shouldHide =
+        currentScrollY > lastScrollYRef.current && currentScrollY > 100;
+
+      setHidden((prev) => {
+        if (prev === shouldHide) return prev;
+        return shouldHide;
+      });
+
+      if (menuOpenRef.current && shouldHide) {
+        setMenuOpen(false);
       }
 
       lastScrollYRef.current = currentScrollY;
+      tickingRef.current = false;
+      });
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -101,8 +119,15 @@ export default function Header() {
           whileHover={{ y: -1.5, scale: 1.01 }}
           whileTap={{ scale: 0.98 }}
         >
-          <div className="flex h-10 w-10 items-center justify-center text-base font-bold text-foreground">
-            vXw
+          <div className="flex h-10 w-10 items-center justify-center">
+            <img
+              src={logo}
+              alt="Vince Pradas logo"
+              className="h-9 w-9 object-contain invert dark:invert-0"
+              loading="eager"
+              decoding="async"
+              draggable={false}
+            />
           </div>
           <div>
             <div className="text-xs font-semibold tracking-[0.24em] text-foreground/90 sm:text-sm">

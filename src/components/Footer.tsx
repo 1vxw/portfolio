@@ -1,6 +1,6 @@
 "use client";
 import { useRef, useEffect } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView } from "@/lib/gsap-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
@@ -17,6 +17,7 @@ import {
   FaFacebookF,
   FaFacebook,
 } from "react-icons/fa";
+import logo from "@/assets/imgs/logo.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -120,7 +121,17 @@ export default function Footer() {
             className="footer-item space-y-4"
           >
             <div>
-              <h3 className="text-2xl font-bold mb-2">Vince Pradas</h3>
+              <div className="flex items-center gap-3 mb-2">
+                <img
+                  src={logo}
+                  alt="Vince Pradas logo"
+                  className="h-9 w-9 object-contain invert dark:invert-0"
+                  loading="lazy"
+                  decoding="async"
+                  draggable={false}
+                />
+                <h3 className="text-2xl font-bold">Vince Pradas</h3>
+              </div>
               <p className="text-foreground/70 text-sm leading-relaxed">
                 Full-Stack Developer passionate about creating amazing digital
                 experiences. From frontend magic to backend wizardry, I bring

@@ -28,8 +28,10 @@ const focusAreas = [
 ];
 
 const containerVariants = {
-  hidden: {},
+  hidden: { opacity: 0, y: 12 },
   visible: {
+    opacity: 1,
+    y: 0,
     transition: {
       staggerChildren: 0.08,
       delayChildren: 0.08,
@@ -45,6 +47,25 @@ const itemVariants = {
     transition: {
       duration: 0.72,
     },
+  },
+};
+
+const textReveal = {
+  hidden: { opacity: 0, y: 26, filter: "blur(6px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.9, ease: "power3.out" },
+  },
+};
+
+const highlightReveal = {
+  hidden: { opacity: 0, y: 10 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, delay: 0.1, ease: "power2.out" },
   },
 };
 
@@ -68,6 +89,20 @@ const STATS_HOVER = {
   scale: 1.02,
   transition: { type: "spring" as const, stiffness: 280, damping: 18 },
 };
+const HERO_INTRO = {
+  hidden: { opacity: 0, y: 18 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.9, ease: "power3.out" },
+  },
+};
+const LEFT_ITEM_BASE_DELAY = 0.08;
+const leftItemTransition = (delay: number) => ({
+  duration: 0.55,
+  ease: "power2.out",
+  delay,
+});
 
 export default function Hero() {
   const { theme, systemTheme } = useTheme();
@@ -104,47 +139,67 @@ export default function Hero() {
           containerRef={heroRef}
         />
       )}
-      <div className="relative z-10 mx-auto flex min-h-[84vh] max-w-7xl flex-col justify-center gap-8 px-4 pb-10 sm:px-6 lg:flex-row lg:items-center lg:gap-10 lg:px-8">
+      <motion.div
+        className="relative z-10 mx-auto flex min-h-[84vh] max-w-7xl flex-col justify-center gap-8 px-4 pb-10 sm:px-6 lg:flex-row lg:items-center lg:gap-10 lg:px-8"
+        variants={HERO_INTRO}
+        initial="hidden"
+        animate="visible"
+      >
         <motion.div
           className="flex w-full max-w-[40rem] flex-col items-center gap-4 text-center lg:items-start lg:text-left"
           style={{ willChange: "transform, opacity" }}
           variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          initial={{ opacity: 0, x: -36 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, ease: "power2.out" }}
         >
           <motion.div
             className="inline-flex items-center gap-2 rounded-full border border-sky-500/20 bg-background/70 px-4 py-2 text-[11px] uppercase tracking-[0.32em] text-muted-foreground backdrop-blur-xl"
-            variants={itemVariants}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={leftItemTransition(LEFT_ITEM_BASE_DELAY)}
           >
             <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_14px_rgba(74,222,128,0.8)]" />
             Available for select builds
           </motion.div>
           <motion.p
             className="text-base font-medium sm:text-lg lg:text-xl"
-            variants={itemVariants}
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={leftItemTransition(LEFT_ITEM_BASE_DELAY + 0.06)}
           >
             Hi, I&apos;m Vince Pradas
           </motion.p>
           <motion.h1
             className="max-w-4xl text-4xl font-semibold leading-[0.94] tracking-[-0.06em] sm:text-5xl xl:text-6xl"
-            variants={itemVariants}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={leftItemTransition(LEFT_ITEM_BASE_DELAY + 0.12)}
           >
             Building digital systems that feel
-            <span className="bg-[linear-gradient(135deg,#0ea5e9,#22c55e,#f472b6)] bg-clip-text text-transparent">
+            <motion.span
+              className="bg-[linear-gradient(135deg,#0ea5e9,#22c55e,#f472b6)] bg-clip-text text-transparent"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={leftItemTransition(LEFT_ITEM_BASE_DELAY + 0.18)}
+            >
               {" "}
               kinetic, sharp, and alive.
-            </span>
+            </motion.span>
           </motion.h1>
           <motion.div
             className="flex w-full max-w-xl justify-center lg:justify-start"
-            variants={itemVariants}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={leftItemTransition(LEFT_ITEM_BASE_DELAY + 0.22)}
           >
             <RotatingText text={["Web Developer", "Freelancer"]} />
           </motion.div>
           <motion.p
             className="max-w-xl px-2 text-sm leading-relaxed opacity-75 sm:px-0"
-            variants={itemVariants}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={leftItemTransition(LEFT_ITEM_BASE_DELAY + 0.28)}
           >
             Building web apps and mobile apps is my jam, from clicking buttons
             on the frontend to handling data on the backend. I care about
@@ -153,7 +208,9 @@ export default function Hero() {
           </motion.p>
           <motion.div
             className="mt-2 flex flex-wrap justify-center gap-2 lg:justify-start"
-            variants={itemVariants}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={leftItemTransition(LEFT_ITEM_BASE_DELAY + 0.34)}
           >
             {focusAreas.map((item) => (
               <motion.span
@@ -167,7 +224,9 @@ export default function Hero() {
           </motion.div>
           <motion.div
             className="mt-3 flex flex-wrap justify-center gap-3 sm:gap-4 lg:justify-start"
-            variants={itemVariants}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={leftItemTransition(LEFT_ITEM_BASE_DELAY + 0.4)}
           >
             <motion.a
               href="/docs/resume.pdf"
@@ -215,16 +274,15 @@ export default function Hero() {
         <motion.div
           className="flex w-full max-w-lg flex-col items-center gap-4 lg:items-stretch"
           style={{ willChange: "transform, opacity" }}
-          initial={{ opacity: 0, x: 50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          viewport={{ once: true, margin: "-100px" }}
+          initial={{ opacity: 0, x: 36 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, ease: "power2.out", delay: 0.04 }}
         >
           <motion.div
             className="relative h-[18rem] w-full overflow-hidden rounded-[2rem] border border-primary/20 bg-[linear-gradient(180deg,rgba(255,255,255,0.6),rgba(255,255,255,0.28))] p-3 shadow-[0_24px_90px_rgba(14,165,233,0.12)] sm:h-[23rem] dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.62),rgba(15,23,42,0.28))]"
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.96 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            transition={{ duration: 0.6, delay: 0.08, ease: "power2.out" }}
             viewport={{ once: true }}
             style={{ transformStyle: "preserve-3d" }}
             whileHover={CARD_HOVER}
@@ -233,8 +291,8 @@ export default function Hero() {
             <div className="absolute inset-3 overflow-hidden rounded-[1.65rem]">
               <motion.div
                 className="relative h-full w-full"
-                whileHover={{ scale: 1.04 }}
-                transition={{ type: "spring", stiffness: 180, damping: 16 }}
+                whileHover={{ scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 160, damping: 18 }}
               >
                 <img
                   src={portraitSrc}
@@ -263,9 +321,9 @@ export default function Hero() {
 
           <motion.div
             className="w-full py-2"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.5, delay: 0.16 }}
             viewport={{ once: true }}
           >
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -273,9 +331,9 @@ export default function Hero() {
                 <motion.div
                   key={stat.label}
                   className="flex flex-col gap-y-1 rounded-[1.25rem] border border-border/60 bg-background/55 px-4 py-4 text-left backdrop-blur-md"
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 8 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
+                  transition={{ duration: 0.45 }}
                   viewport={{ once: true }}
                   whileHover={STATS_HOVER}
                 >
@@ -290,7 +348,7 @@ export default function Hero() {
             </div>
           </motion.div>
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 }

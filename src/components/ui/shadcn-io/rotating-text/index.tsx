@@ -6,7 +6,7 @@ import {
   motion,
   type HTMLMotionProps,
   type Transition,
-} from "motion/react";
+} from "@/lib/gsap-motion";
 
 import { cn } from "@/lib/utils";
 

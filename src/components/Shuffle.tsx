@@ -5,6 +5,7 @@ import { SplitText as GSAPSplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger, GSAPSplitText, useGSAP);
+gsap.ticker.lagSmoothing(1000, 16);
 
 export interface ShuffleProps {
   text: string;

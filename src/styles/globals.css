@@ -1,10 +1,15 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@300;400;500;600;700;800;900&family=Press+Start+2P&display=swap");
 @custom-variant dark (&:where(.dark, .dark *));
 
 
 /* default (light) values */
 :root {
+  --font-geist-sans: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-geist-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-press-start: "Press Start 2P", system-ui, sans-serif;
   --primary: oklch(0.205 0 0);
   --radius: 0.625rem;
   --background: oklch(0.985 0.006 240);
@@ -137,7 +142,7 @@
 
 /* Custom font utility */
 .font-press-start {
-  font-family: 'Press Start 2P', system-ui;
+  font-family: var(--font-press-start), system-ui;
 }
 
 html {

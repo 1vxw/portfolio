@@ -7,7 +7,7 @@ import {
   useMotionValue,
   useVelocity,
   useAnimationFrame,
-} from "motion/react";
+} from "@/lib/gsap-motion";
 
 interface VelocityMapping {
   input: [number, number];

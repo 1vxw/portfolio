@@ -5,7 +5,6 @@ import React, {
   useRef,
   useState,
 } from "react";
-import Image from "next/image";
 
 export type LogoItem =
   | {
@@ -56,7 +55,9 @@ const cx = (...parts: Array<string | false | null | undefined>) =>
 const useResizeObserver = (
   callback: () => void,
   elements: Array<React.RefObject<Element | null>>,
-  dependencies: React.DependencyList
+  logos: LogoItem[],
+  gap: number,
+  logoHeight: number
 ) => {
   useEffect(() => {
     if (!window.ResizeObserver) {
@@ -78,13 +79,15 @@ const useResizeObserver = (
     return () => {
       observers.forEach((observer) => observer?.disconnect());
     };
-  }, dependencies);
+  }, [callback, elements, logos, gap, logoHeight]);
 };
 
 const useImageLoader = (
   seqRef: React.RefObject<HTMLUListElement | null>,
   onLoad: () => void,
-  dependencies: React.DependencyList
+  logos: LogoItem[],
+  gap: number,
+  logoHeight: number
 ) => {
   useEffect(() => {
     const images = seqRef.current?.querySelectorAll("img") ?? [];
@@ -118,7 +121,7 @@ const useImageLoader = (
         img.removeEventListener("error", handleImageLoad);
       });
     };
-  }, dependencies);
+  }, [seqRef, onLoad, logos, gap, logoHeight]);
 };
 
 const useAnimationLoop = (
@@ -126,7 +129,8 @@ const useAnimationLoop = (
   targetVelocity: number,
   seqWidth: number,
   isHovered: boolean,
-  pauseOnHover: boolean
+  pauseOnHover: boolean,
+  isVisible: boolean
 ) => {
   const rafRef = useRef<number | null>(null);
   const lastTimestampRef = useRef<number | null>(null);
@@ -150,6 +154,12 @@ const useAnimationLoop = (
 
     if (prefersReduced) {
       track.style.transform = "translate3d(0, 0, 0)";
+      return () => {
+        lastTimestampRef.current = null;
+      };
+    }
+
+    if (!isVisible) {
       return () => {
         lastTimestampRef.current = null;
       };
@@ -191,7 +201,7 @@ const useAnimationLoop = (
       }
       lastTimestampRef.current = null;
     };
-  }, [targetVelocity, seqWidth, isHovered, pauseOnHover]);
+  }, [trackRef, targetVelocity, seqWidth, isHovered, pauseOnHover, isVisible]);
 };
 
 export const LogoLoop = React.memo<LogoLoopProps>(
@@ -219,6 +229,19 @@ export const LogoLoop = React.memo<LogoLoopProps>(
       ANIMATION_CONFIG.MIN_COPIES
     );
     const [isHovered, setIsHovered] = useState<boolean>(false);
+    const [isVisible, setIsVisible] = useState<boolean>(true);
+
+    useEffect(() => {
+      if (!containerRef.current) return;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => setIsVisible(entry.isIntersecting),
+        { threshold: 0.05 }
+      );
+
+      observer.observe(containerRef.current);
+      return () => observer.disconnect();
+    }, []);
 
     const targetVelocity = useMemo(() => {
       const magnitude = Math.abs(speed);
@@ -241,20 +264,22 @@ export const LogoLoop = React.memo<LogoLoopProps>(
       }
     }, []);
 
-    useResizeObserver(
-      updateDimensions,
-      [containerRef, seqRef],
-      [logos, gap, logoHeight]
+    const resizeTargets = useMemo<Array<React.RefObject<Element | null>>>(
+      () => [containerRef, seqRef],
+      []
     );
 
-    useImageLoader(seqRef, updateDimensions, [logos, gap, logoHeight]);
+    useResizeObserver(updateDimensions, resizeTargets, logos, gap, logoHeight);
+
+    useImageLoader(seqRef, updateDimensions, logos, gap, logoHeight);
 
     useAnimationLoop(
       trackRef,
       targetVelocity,
       seqWidth,
       isHovered,
-      pauseOnHover
+      pauseOnHover,
+      isVisible
     );
 
     const cssVariables = useMemo(
@@ -308,8 +333,7 @@ export const LogoLoop = React.memo<LogoLoopProps>(
             {"node" in item ? item.node : null}
           </span>
         ) : (
-          // Use Next.js Image for optimized images
-          <Image
+          <img
             className={cx(
               "h-[var(--logoloop-logoHeight)] w-auto block object-contain",
               "[-webkit-user-drag:none] pointer-events-none",
@@ -322,11 +346,12 @@ export const LogoLoop = React.memo<LogoLoopProps>(
             width={item.width}
             height={item.height}
             alt={item.alt ?? ""}
-            unoptimized={!item.srcSet && !item.sizes}
             title={item.title}
             decoding="async"
             draggable={false}
+            srcSet={item.srcSet}
             sizes={item.sizes}
+            loading="lazy"
           />
         );
 

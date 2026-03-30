@@ -1,10 +1,12 @@
-# Website Portfolio
+# Portfolio Website
 
 A modern, responsive portfolio website showcasing my skills, projects, and experience as a developer. Built with cutting-edge technologies and featuring smooth animations, interactive components, and a comprehensive technology showcase.
 
-## Preview
+## PREVIEW
 
-**[vincepradas.github.io](https://vincepradas.github.io)**
+**[https://vincewarrenpradas.dev](https://vincewarrenpradas.dev)**
+
+![Portfolio preview](src/assets/imgs/image.png)
 
 ### **Modern Design**
 - **Clean, minimalist interface** with black & white theme
@@ -31,13 +33,9 @@ A modern, responsive portfolio website showcasing my skills, projects, and exper
 - **Hover effects** and smooth transitions
 - **Theme-compatible icons** that work in both light and dark modes
 
-<<<<<<< HEAD
-=======
 ## **Tech Stack**
-
->>>>>>> c97c1fa54433ad880917fa7af37d2f1c20b16811
 ### **Core Framework**
-- **Next.js 15.5.4** - React framework with App Router
+- **Vite 5** - Lightning-fast dev server and build tooling
 - **React 19.1.0** - Latest React with concurrent features
 - **TypeScript** - Type-safe development
 
@@ -58,73 +56,35 @@ A modern, responsive portfolio website showcasing my skills, projects, and exper
 - **Math.js** - Advanced mathematics
 - **LDRS** - Loading animations
 
-## **Getting Started**
-
-### **Prerequisites**
-- Node.js 18+ 
-- npm, yarn, pnpm, or bun
-
-### **Installation**
-
-1. **Clone the repository**
-```bash
-git clone https://github.com/VincePradas/vincepradas.github.io.git
-cd portfolio
-```
-
-2. **Install dependencies**
-```bash
-npm install
-# or
-yarn install
-# or
-pnpm install
-# or
-bun install
-```
-
-3. **Run development server**
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-4. **Open in browser**
-Navigate to [http://localhost:3000](http://localhost:3000) to see the portfolio.
 
 ## **Project Structure**
 
 ```
 portfolio/
-├── public/                 # Static assets
-├── src/
-│   ├── app/
-│   │   ├── sections/       # Main portfolio sections
-│   │   │   ├── Hero.tsx    # Landing hero section
-│   │   │   ├── About.tsx   # About me section
-│   │   │   ├── Skills.tsx  # Technology showcase
-│   │   │   └── Projects.tsx # Projects portfolio
-│   │   ├── assets/         # Images and media
-│   │   ├── styles/         # Global styles
-│   │   ├── layout.tsx      # Root layout
-│   │   └── page.tsx        # Main page
-│   ├── components/         # Reusable components
-│   │   ├── ui/             # UI components
-│   │   ├── Header.tsx      # Navigation header
-│   │   ├── AutoMovingCursor.tsx # Interactive cursor
-│   │   ├── LogoLoop.tsx    # Animated logo loop
-│   │   ├── ScrollVelocity.tsx # Scroll animations
-│   │   └── FlowingMenu.tsx # Animated menu
-│   └── lib/
-│       └── utils.ts        # Utility functions
-├── components.json         # shadcn/ui config
-├── tailwind.config.js     # Tailwind configuration
-└── next.config.ts         # Next.js configuration
+|-- public/                 # Static assets
+|-- src/
+|   |-- sections/           # Main portfolio sections
+|   |   |-- Hero.tsx        # Landing hero section
+|   |   |-- About.tsx       # About me section
+|   |   |-- Skills.tsx      # Technology showcase
+|   |   `-- Projects.tsx    # Projects portfolio
+|   |-- assets/             # Images and media
+|   |-- styles/             # Global styles
+|   |-- components/         # Reusable components
+|   |   |-- ui/             # UI components
+|   |   |-- Header.tsx      # Navigation header
+|   |   |-- AutoMovingCursor.tsx # Interactive cursor
+|   |   |-- LogoLoop.tsx    # Animated logo loop
+|   |   |-- ScrollVelocity.tsx # Scroll animations
+|   |   `-- FlowingMenu.tsx # Animated menu
+|   |-- lib/
+|   |   `-- utils.ts        # Utility functions
+|   |-- App.tsx             # App root
+|   |-- main.tsx            # Vite entry
+|   `-- vite-env.d.ts
+|-- components.json         # shadcn/ui config
+|-- vite.config.ts          # Vite configuration
+`-- index.html              # Vite HTML entry
 ```
 
 ## **Key Components**
@@ -145,35 +105,11 @@ portfolio/
 - **Consistent Styling**: B&W design that works perfectly in both modes
 - **Icon Adaptation**: Technology icons automatically adapt to theme changes
 
-## **Build & Deploy**
-
-### **Build for production**
-```bash
-npm run build
-```
-
-### **Deploy to GitHub Pages**
-This portfolio is configured for GitHub Pages deployment:
-
-1. **Build the project**
-2. **Push to main branch**
-3. **GitHub Actions** handles the deployment automatically
-4. **Live at**: [vincepradas.github.io](https://vincepradas.github.io)
-
-## **Contributing**
-
-Feel free to explore the code, suggest improvements, or use this as inspiration for your own portfolio!
-
 ## **Connect With Me**
 
-- **Portfolio**: [vincepradas.github.io](https://vincepradas.github.io)
-- **GitHub**: [@VincePradas](https://github.com/VincePradas)
+- **Portfolio**: [vincewarrenpradas.dev](https://vincewarrenpradas.dev)
+- **GitHub**: [@1vxw](https://github.com/1vxw)
 - **LinkedIn**: [Connect with me](https://linkedin.com/in/vincepradas)
 
-## **License**
+**Vince Pradas 2026**
 
-This project is open source and available under the [MIT License](LICENSE).
-
----
-
-**Built with ❤️ by Vince Pradas**
