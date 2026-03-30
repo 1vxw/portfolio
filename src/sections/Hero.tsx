@@ -257,7 +257,7 @@ export default function Hero() {
               Get in Touch
             </motion.button>
             <motion.a
-              href="https://github.com/VincePradas"
+              href="https://github.com/1vxw"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={CTA_HOVER}
