@@ -20,29 +20,29 @@ const projectCards = [
     title: "Nemsu E-Learning Environment API",
     description:
       "North Eastern Mindanao State University E-Learning Enviroment Server",
-    tech: ["Node.js", "TypeScript", "Express.js", "SQLite", "Azure"],
+    tech: ["Node.js", "TypeScript", "Express.js", "SQLite", "Azure", "Namecheap DNS"],
     status: "In Progress",
-    url: "https://github.com/Vincepradas/nemsuee-server",
+    url: "https://github.com/1vxw/nemsuee-server",
   },
   {
     title: "Nemsu E-Learning Environment Frontend",
     description:
       "North Eastern Mindanao State University E-Learning Enviroment Frontend",
-    tech: ["React", "TypeScript", "Tailwind v4"],
+    tech: ["React", "TypeScript", "Tailwind v4", "Vite", "Azure", "Namecheap DNS"],
     status: "In Progress",
-    url: "https://elearning.my-nemsu.site/",
+    url: "https://github.com/1vxw/nemsuee-client",
   },
   {
     title: "Sandra's: Mobile Only E-Commerce Platform",
     description: "Full-stack e-commerce platform with React and Tailwind v4.",
-    tech: ["ReactJS", "Tailwind v4"],
+    tech: ["ReactJS", "Tailwind v4", "Azure", "Namecheap DNS"],
     status: "Completed",
     url: "https://shop-sandras.vercel.app/",
   },
   {
     title: "Sandra's REST API",
     description: "The official RESTful API for Sandra's deployed on Azure.",
-    tech: ["MongoDB", "Express.js", "Node.js", "Azure", "Multer", "AWS S3"],
+    tech: ["MongoDB", "Express.js", "Node.js", "Azure", "Multer", "AWS S3", "Namecheap DNS"],
     status: "Completed",
     url: "https://ecom-sandras-g6abfyg2azbqekf8.southeastasia-01.azurewebsites.net/api/products",
   },
@@ -58,7 +58,7 @@ const projectCards = [
     title: "SmartQuiz REST API",
     description:
       "The official RESTful API for SmartQuiz android application deployed on Azure.",
-    tech: ["MongoDB", "Express.js", "Azure", "Google Gemini"],
+    tech: ["MongoDB", "Express.js", "Azure", "Google Gemini", "Namecheap DNS"],
     status: "Completed",
     url: "https://quiz-gen-be-c5bmh0azcycyg8gz.southeastasia-01.azurewebsites.net/quizzes",
   },
@@ -67,7 +67,7 @@ const projectCards = [
     description: "A RESTful API for Madrid's Government Website",
     tech: ["SQLite", "Express.js", "Azure", "TypeScript"],
     status: "In Progess",
-    url: "https://github.com/Vincepradas/madridsds_gov_website_api",
+    url: "https://github.com/1vxw/madridsds_gov_website_api",
   },
   {
     title: "Savince: Savings Tracker APP",
@@ -75,7 +75,7 @@ const projectCards = [
       "Savince is an ultimate savings app designed to help you achieve your financial goals, built with Appwrite and AWS S3 for storage.",
     tech: ["React Native", "Appwrite", "AWS S3", "Nativewind"],
     status: "Completed",
-    url: "https://github.com/VincePradas",
+    url: "https://apkpure.com/p/com.savings.manager",
   },
   {
     title: "AI OCR Desktop Overlay",
@@ -83,15 +83,23 @@ const projectCards = [
       "A desktop application that lets you take a screenshot, extract questions from the image using OCR, and get instant AI-generated answers using Google Gemini. Built with Electron, Tesseract.js, and Google GenAI.",
     tech: ["Google Gemini", "Electron", "Tesseract.js", "Google GenAI"],
     status: "In Progress",
-    url: "https://github.com/VincePradas/AI_OCR_DESKTOPAPP",
+    url: "https://github.com/1vxw/AI_OCR_DESKTOPAPP",
   },
     {
     title: "Facebook Messenger AI Chatbot",
     description:
       "This project was forked from another repository. I modified it to fit my needs because internet access is a big problem for me at school. Since I spend a lot of time on Messenger, I thought it would be convenient if I could do most of my work there, especially since sending messages on Messenger is free.",
-    tech: ["JavaScript", "SQLite", "Azure", "Google Cloud Console APIs"],
+    tech: ["Node.js","JavaScript", "SQLite", "Azure", "Google Cloud Console APIs", "Namecheap DNS"],
     status: "In Progress",
     url: "https://vance.api-vincepradas.site",
+  },
+    {
+    title: "Card Wars Kingdom Reversed Engineered Server",
+    description:
+    "A reversed-engineered server for Card Wars Kingdom, designed for version 1.0.17 but it should also work with 1.19.1 available here: https://github.com/shishkabob27/CardWarsKingdom.",  
+    tech: ["Python","JavaScript", "SQLite", "Azure App Services", "Namecheap DNS"],
+    status: "In Progress",
+    url: "https://github.com/1vxw/cardwars-kingdom-custom-server",
   },
   {
     title: "Dating Site REST API",
@@ -99,7 +107,15 @@ const projectCards = [
       "A RESTful API for a dating platform, enabling user authentication, profile management, and messaging functionalities.",
     tech: ["Node.js", "Express.js", "MongoDB", "Multer", "Socket.io"],
     status: "In Progress",
-    url: "https://github.com/VincePradas/datingsite-backend",
+    url: "https://github.com/1vxw/datingsite-backend",
+  },
+  {
+    title: "Manga Reading Platform",
+    description:
+      "An API for accessing a vast repository of manga data freely. Manga Hook is designed to streamline the process of retrieving manga information, offering features such as search, fetching all manga, fetching a single manga, retrieving manga chapters, and obtaining images from a specific chapter.",
+    tech: ["Node.js", "Express.js", "TypeScript"],
+    status: "Completed",
+    url: "https://github.com/1vxw/mangaweb",
   },
   {
     title: "Simple Blog Website",
@@ -114,7 +130,7 @@ const projectCards = [
       "An E-Commerce platform designed to address SDG #2: Zero Hunger, which placed 2nd in VSU's Computer Science Week.",
     tech: ["MongoDB", "Express.js", "Node.js", "Azure", "Multer", "AWS S3"],
     status: "Completed",
-    url: "https://github.com/VincePradas/csweekhackathon",
+    url: "https://github.com/1vxw/csweekhackathon",
   },
   {
     title: "My Website Portfolio",
@@ -127,7 +143,19 @@ const projectCards = [
       "Animation Libraries",
     ],
     status: "Completed",
-    url: "https://github.com/VincePradas/csweekhackathon",
+    url: "https://github.com/1vxw/csweekhackathon",
+  },
+  {
+    title: "E-commerce Admin Web Panel",
+    description: "An admin page for an ecommerce website using react (front-end)",
+    tech: [
+      "JavaSctipt",
+      "TypeScript",
+      "CSS",
+      "SCSS"
+    ],
+    status: "Completed",
+    url: "https://github.com/1vxw/EcommerceWeb-Admin",
   },
   {
     title: "MY GITHUB ACCOUNT",
@@ -135,7 +163,7 @@ const projectCards = [
       "A collection of my projects, featuring scripts for automation and other tools.",
     tech: ["Github"],
     status: "Github",
-    url: "https://github.com/VincePradas",
+    url: "https://github.com/1vxw",
   },
 ];
 
